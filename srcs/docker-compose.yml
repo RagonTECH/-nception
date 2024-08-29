@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    build: /home/msaka/srcs/requirements/nginx
+    ports:
+      - 443:443
+    volumes:
+      - /home/msaka/srcs/web:/var/www/html
+    depends_on:
+      - wordpress
+    networks:
+      network:
+
+  mariadb:
+    container_name: mariadb
+    build: /home/msaka/srcs/requirements/mariadb
+    env_file:
+      - /home/msaka/srcs/.env
+    networks:
+      network:
+      
+  wordpress:
+    container_name: wp-php
+    build: /home/msaka/srcs/requirements/wordpress
+    volumes:
+      - /home/msaka/srcs/web:/var/www/html
+    env_file:
+      - /home/msaka/srcs/.env
+    depends_on:
+      - mariadb
+    networks:
+      network:
+
+volumes:
+  wordpress:
+    driver: local
+  mariadb_data:
+    driver: local
+
+networks:
+  network:
+    driver: bridge
