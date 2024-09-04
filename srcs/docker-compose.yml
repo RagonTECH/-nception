@@ -7,7 +7,7 @@ services:
     ports:
       - 443:443
     volumes:
-      - ./web:/var/www/html
+      - /home/msaka/data/wordpress_data:/var/www/html
     depends_on:
       - wordpress
     networks:
@@ -16,6 +16,8 @@ services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
+    volumes:
+      - /home/msaka/data/mariadb_data:/var/lib/mysql
     env_file:
       - ./.env
     networks:
@@ -25,11 +27,9 @@ services:
     container_name: wp-php
     build: ./requirements/wordpress
     volumes:
-      - ./web:/var/www/html
+      - /home/msaka/data/wordpress_data:/var/www/html
     env_file:
       - ./.env
-    depends_on:
-      - mariadb
     networks:
       network:
 

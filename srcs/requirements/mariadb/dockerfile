@@ -10,9 +10,13 @@ RUN mkdir /run/mysqld && \
     chown mysql:mysql /run/mysqld
 
 COPY 50-server.cnf /etc/mysql/mariadb.conf.d/.
-COPY tools/init.sql /docker-entrypoint-initdb.d/init.sql
+
+RUN chown -R mysql:mysql /var/lib/mysql
+RUN chmod -R 755 /var/lib/mysql
+
+COPY /tools/init.sh /usr/local/bin/init.sh
+RUN chmod +x /usr/local/bin/init.sh
 
 
-
-CMD [ "mysqld" ]
+CMD ["/usr/local/bin/init.sh"]
 

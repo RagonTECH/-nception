@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+# init.sql dosyasını oluştur
+cat <<EOF > /etc/mysql/init.sql
+CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
+CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';
+FLUSH PRIVILEGES;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+EOF
+
+mysql_install_db --user=mysql
+
+exec mysqld

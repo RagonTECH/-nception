@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Çevre değişkenlerini .env dosyasından yükle
-set -a
-. /home/msaka/srcs/.env
-set +a
-
 # WordPress dizinine git
 cd /var/www/html
 
